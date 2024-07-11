@@ -4,7 +4,9 @@ from flask import jsonify, Blueprint, request
 from src.controllers.trip_creator import TripCreator
 from src.controllers.trip_finder import TripFinder
 from src.controllers.trip_confirmer import TripConfirmer
+
 from src.controllers.link_creator import LinkCreator
+from src.controllers.link_finder import LinkFinder
 
 # importacao de repositorios
 from src.models.repositories.trips_repository import TripsRepository
@@ -50,7 +52,7 @@ def confirm_trip(tripId):
 
     return jsonify(response['body']), response['status_code']
 
-@trips_routes_bp.route("/links/<tripId>", methods=["POST"])
+@trips_routes_bp.route("/trips/<tripId>/links", methods=["POST"])
 def create_link(tripId):
     # pegar connection do db que foi iniciada no run.py
     conn = db_connection_handler.get_connection()
@@ -58,5 +60,16 @@ def create_link(tripId):
     controller = LinkCreator(links_repository)
 
     response = controller.create(request.json, tripId)
+
+    return jsonify(response['body']), response['status_code']
+
+@trips_routes_bp.route("/trips/<tripId>/links", methods=["GET"])
+def find_link(tripId):
+    # pegar connection do db que foi iniciada no run.py
+    conn = db_connection_handler.get_connection()
+    links_repository = LinksRepository(conn)
+    controller = LinkFinder(links_repository)
+
+    response = controller.find(tripId)
 
     return jsonify(response['body']), response['status_code']
