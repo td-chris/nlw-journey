@@ -50,7 +50,7 @@ def find_trip(tripId):
 
     return jsonify(response['body']), response['status_code']
 
-@trips_routes_bp.route("/trips/<tripId>/confirm", methods=["PATCH"])
+@trips_routes_bp.route("/trips/<tripId>/confirm", methods=["GET"])
 def confirm_trip(tripId):
     # pegar connection do db que foi iniciada no run.py
     conn = db_connection_handler.get_connection()
