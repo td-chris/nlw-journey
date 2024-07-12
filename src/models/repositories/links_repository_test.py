@@ -5,7 +5,7 @@ from src.models.settings.db_connection_handler import db_connection_handler
 
 db_connection_handler.connect()
 link_id = str(uuid.uuid4())
-trip_id = "d68469eb-075b-471c-b9df-dc4439333b86"
+trip_id = str(uuid.uuid4())
 
 @pytest.mark.skip(reason="interacao com o banco")
 def test_create_trip():
